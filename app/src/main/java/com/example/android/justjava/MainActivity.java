@@ -19,16 +19,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void IncreaseQuantity_1(View view){
         Quantity++;
-        calculatePrice(Quantity,pricePerCoffee);
-        displayDetails(Quantity,price);
+        calculatePrice();
+        displayDetails();
     }
     public void DecreaseQuantity_1(View view){
         Quantity--;
         if(Quantity<0)Quantity=0;
-        calculatePrice(Quantity,pricePerCoffee);
-        displayDetails(Quantity,price);
+        calculatePrice();
+        displayDetails();
     }
-    public void displayDetails(int number,int price) {
+
+    public void displayDetails(){
         TextView priceNum = (TextView) findViewById(R.id.quantity_text_view);
         priceNum.setText("" + Quantity);
 
@@ -36,34 +37,47 @@ public class MainActivity extends AppCompatActivity {
         priceText.setText("₹ "+price);
     }
 
-
-    public int calculatePrice(int Quantity,int pricePerCoffee){
+    public void calculatePrice(){
         price=Quantity*pricePerCoffee;
-        return price;
     }
 
 
     public String createOrderSummary(){
-
-        int price=calculatePrice(Quantity,10);
         String name = "Anushka";
 
-        CheckBox WhippedCream = findViewById(R.id.checkbox_whipped_cream);
-        boolean CheckBoxWhippedCream = WhippedCream.isChecked();
+        int priceWhippedCreamPerCoffee=4;
+        int QuantityWhippedCream=Quantity;
 
-        Log.v("CheckBox Activity:","Whipped Cream is"+CheckBoxWhippedCream);
+        int priceChocolatePerCoffee=7;
+        int QuantityChocolate=Quantity;
+
+        CheckBox WhippedCream = findViewById(R.id.checkbox_whipped_cream);
+        boolean hasWhippedCream = WhippedCream.isChecked();
+        if(hasWhippedCream){
+            price+=(priceWhippedCreamPerCoffee*QuantityWhippedCream);
+            displayDetails();
+        }
+
+        CheckBox Chocolate = findViewById(R.id.checkbox_chocolate);
+        boolean hasChocolate = Chocolate.isChecked();
+        if(hasChocolate){
+            price+=(priceChocolatePerCoffee*QuantityChocolate);
+            displayDetails();
+        }
+
 
         String message="Name: "+name+
                 "\nQuantity: "+Quantity+
-                "\nAdd Whipped Cream?"+CheckBoxWhippedCream+
-                "\nTotal: "+price+"\n";
+                "\nAdd Whipped Cream?"+(hasWhippedCream?"Yes":"No")+
+                "\nAdd Chocolate?"+(hasChocolate?"Yes":"No")+
+                "\nTotal: ₹ "+price;
         return message;
     }
 
     public void displayOrder(View view) {
         TextView messageText = (TextView) findViewById(R.id.message);
         if (Quantity > 0) {
-            messageText.setText(createOrderSummary()+"Thank you!");
+            messageText.setText(createOrderSummary()+"\nThank you!");
         } else {
             messageText.setText("No order has been placed");
         }
