@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String createOrderSummary(){
-        String name = "Anushka";
+        EditText nameEditText = (EditText) findViewById(R.id.name);
+        String name = nameEditText.getText().toString();
 
         int priceWhippedCreamPerCoffee=4;
         int QuantityWhippedCream=Quantity;
